@@ -1,0 +1,19 @@
+analysis_task:
+  description: >
+    Analyze the findings for form ID: {formId}.
+    The findings data (JSON format) is:
+    ```json
+    {findings_json}
+    ```
+    IMPORTANT: You MUST parse the 'formId' ({formId}) and the 'findings' list from the JSON data provided above in this description.
+    Use the 'Structured Image Analyzer' tool, passing it the exact 'formId' and 'findings' list you just parsed.
+
+    Based on the collective analysis results returned by the tool, identify potential business opportunities or consulting services.
+    Crucially, you MUST generate at least one distinct opportunity derived from the analysis of EACH finding provided. Ensure that the final list reflects insights from all analyzed images.
+    Focus on emerging trends or complex areas revealed by the image analyses.
+  expected_output: >
+    A JSON object conforming to the OpportunitiesReport Pydantic model, containing a list of potential business opportunities or consulting service ideas.
+    This list MUST include at least one opportunity derived specifically from the analysis of EACH finding.
+    Each opportunity MUST include a title, description, potential_impact, and crucially, the 'source_image_url' and 'source_description' from the specific finding that primarily inspired the opportunity.
+  # agent will be assigned in main.py
+  # output_pydantic: OpportunitiesReport # This is handled in the Python code

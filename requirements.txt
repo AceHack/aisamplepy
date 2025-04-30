@@ -1,0 +1,3 @@
+python-dotenv>=0.10.0 # For loading .env files
+crewai
+langchain-openai
