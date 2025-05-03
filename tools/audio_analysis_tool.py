@@ -14,12 +14,16 @@ load_dotenv()
 AZURE_OPENAI_TRANSCRIPTION_API_KEY = os.getenv("AZURE_OPENAI_TRANSCRIPTION_API_KEY")  # Renamed variable
 AZURE_OPENAI_TRANSCRIPTION_ENDPOINT = os.getenv("AZURE_OPENAI_TRANSCRIPTION_ENDPOINT")
 AZURE_OPENAI_TRANSCRIPTION_DEPLOYMENT = os.getenv("AZURE_OPENAI_TRANSCRIPTION_DEPLOYMENT", "gpt-4o-transcribe")  # Get deployment name or default
-API_VERSION = "2025-03-01-preview"  # As specified in the URL
+# Get API version from env var, default to the preview version
+AZURE_OPENAI_TRANSCRIPTION_API_VERSION = os.getenv("AZURE_OPENAI_TRANSCRIPTION_API_VERSION", "2025-03-01-preview")
 
 if not AZURE_OPENAI_TRANSCRIPTION_API_KEY:  # Renamed variable
     print("Warning: AZURE_OPENAI_TRANSCRIPTION_API_KEY environment variable not set.")  # Renamed variable
 if not AZURE_OPENAI_TRANSCRIPTION_ENDPOINT:
     print("Warning: AZURE_OPENAI_TRANSCRIPTION_ENDPOINT environment variable not set.")
+# Optional: Inform if the default API version is being used
+if AZURE_OPENAI_TRANSCRIPTION_API_VERSION == "2025-03-01-preview" and not os.getenv("AZURE_OPENAI_TRANSCRIPTION_API_VERSION"):
+    print(f"Info: Using default Azure OpenAI API Version: {AZURE_OPENAI_TRANSCRIPTION_API_VERSION}")
 
 
 class AudioAnalysisInput(BaseModel):
@@ -48,9 +52,9 @@ class AudioAnalysisTool(BaseTool):
             self._openai_client = AzureOpenAI(
                 api_key=AZURE_OPENAI_TRANSCRIPTION_API_KEY,  # Renamed variable
                 azure_endpoint=AZURE_OPENAI_TRANSCRIPTION_ENDPOINT,
-                api_version=API_VERSION,
+                api_version=AZURE_OPENAI_TRANSCRIPTION_API_VERSION,  # Use the env var value
             )
-            print(f"Tool: Azure OpenAI client initialized (Endpoint: {AZURE_OPENAI_TRANSCRIPTION_ENDPOINT}, Deployment: {AZURE_OPENAI_TRANSCRIPTION_DEPLOYMENT}).")
+            print(f"Tool: Azure OpenAI client initialized (Endpoint: {AZURE_OPENAI_TRANSCRIPTION_ENDPOINT}, Deployment: {AZURE_OPENAI_TRANSCRIPTION_DEPLOYMENT}, API Version: {AZURE_OPENAI_TRANSCRIPTION_API_VERSION}).")  # Log API version
         except Exception as e:
             raise RuntimeError(f"Failed to initialize Azure OpenAI client: {e}")
 
