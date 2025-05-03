@@ -1,4 +1,5 @@
-python-dotenv>=0.10.0 # For loading .env files
+python-dotenv # For loading environment variables
 crewai
 langchain-openai
 openai # Added for Azure OpenAI client
+azure-identity # Added for Azure authentication
